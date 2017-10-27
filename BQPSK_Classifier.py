@@ -6,14 +6,8 @@ import matplotlib.pyplot as plt
 
 # Load the dataset ...
 #  You will need to seperately download or generate this file
-Xd = cPickle.load(open("RML2016.10a_dict.dat",'rb'))
+Xd = cPickle.load(open("/Users/guanyuchen/Desktop/RML2016.10a_dict.dat",'rb'))
 snrs,mods = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [1,0])
-
-BPSK = []
-QPSK = []
-
-b = []
-q = []
 
 BPSK = Xd[('BPSK',18)][0:800,:,:]
 QPSK = Xd[('QPSK',18)][0:800,:,:]
