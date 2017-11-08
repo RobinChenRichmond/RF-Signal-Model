@@ -11,19 +11,26 @@ snrs,mods = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [1,
 
 BPSK = Xd[('BPSK',18)][0:800,:,:]
 QPSK = Xd[('QPSK',18)][0:800,:,:]
-X = np.concatenate((BPSK,QPSK))
+EPSK = Xd[('8PSK',18)][0:800,:,:]
+
+X = np.vstack((BPSK,QPSK,EPSK))
 
 BPSK_TEST = Xd[('BPSK',18)][800:1000,:,:]
 QPSK_TEST = Xd[('QPSK',18)][800:1000,:,:]
-test = np.concatenate((BPSK_TEST,QPSK_TEST))
+EPSK_TEST = Xd[('8PSK',18)][800:1000,:,:]
+test = np.vstack((BPSK_TEST,QPSK_TEST,EPSK_TEST))
 
 b = np.zeros(800)
 q = np.ones(800)
-lbl = np.concatenate((b,q))
+e = np.empty(800)
+e.fill(2)
+lbl = np.vstack((b,q,e))
 
 btest = np.zeros(200)
 qtest = np.ones(200)
-lbltest = np.concatenate((btest,qtest))
+etest = np.empty(200)
+etest.fill(2)
+lbltest = np.vstack((btest,qtest,etest))
 
 import keras
 from keras import metrics
@@ -35,8 +42,8 @@ from keras import backend as K
 #from sklearn.model_selection import ShuffleSplit
 
 batch_size = 128
-num_classes = 2
-epochs = 50
+num_classes = 3
+epochs = 200
 
 # input image dimensions
 img_rows, img_cols = 2, 128
@@ -80,17 +87,36 @@ model = Sequential()
 model.add(Conv2D(32, kernel_size=(1, 2),
                  activation='relu',
                  input_shape=input_shape))
+
+dr = 0.5 # dropout rate (%)
+model.add(ZeroPadding2D((0, 2)))
+model.add(Conv2D(256, (1, 3), border_mode='valid', activation="relu", name="conv1", init='glorot_uniform'))
+model.add(Dropout(dr))
+model.add(ZeroPadding2D((0, 2)))
+model.add(Conv2D(80, (2, 3), border_mode="valid", activation="relu", name="conv2", init='glorot_uniform'))
+model.add(Dropout(dr))
+model.add(Flatten())
+model.add(Dense(256, activation='relu', init='he_normal', name="dense1"))
+model.add(Dropout(dr))
+model.add(Dense(num_classes, init='he_normal', name="dense2" ))
+#model.add(Activation('softmax'))
+#model.add(Reshape([len(classes)]))
+#model.compile(loss='categorical_crossentropy', optimizer='adam')
+
+"""
 model.add(Conv2D(64, (2, 2), activation='relu'))
 model.add(MaxPooling2D(pool_size=(1, 2)))
 model.add(Dropout(0.25))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
+"""
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss=keras.losses.categorical_crossentropy,
-              optimizer=keras.optimizers.Adadelta(),
+              optimizer=keras.optimizers.Adam(),
               metrics=['accuracy'])
+model.summary()
 
 model.fit(x_train, y_train,
           batch_size=batch_size,
@@ -100,3 +126,5 @@ model.fit(x_train, y_train,
 score = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+x = model.predict(x_test)
