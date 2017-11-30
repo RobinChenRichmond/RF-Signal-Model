@@ -29,8 +29,8 @@ for mod in mods:
 X = np.vstack(X)
 #220000*2*128
 
+# doesn't work
 #dat = X[i,0,:]+1j*X[i,1,:]
-
 '''
 X2 = []
 for i in range(X.shape[0]):
@@ -55,7 +55,7 @@ print("Data prepared")
 # Partition the data
 #  into training and test sets of the form we can train/test on 
 #  while keeping SNR and Mod labels handy for each
-np.random.seed(2016)
+np.random.seed(2017)
 n_examples = X.shape[0]
 n_train = int(n_examples * 0.5)
 train_idx = np.random.choice(range(0,n_examples), size=n_train, replace=False)
@@ -85,7 +85,7 @@ model = models.Sequential()
 model.add(Reshape(in_shp+[1], input_shape=in_shp))
 model.add(ZeroPadding2D((0,2)))
 
-#original
+#original architecture
 '''
 model.add(Conv2D(256, (1,3), activation="relu"))
 model.add(Dropout(dr))
@@ -94,15 +94,15 @@ model.add(Conv2D(80, (2,3), activation="relu"))
 model.add(Dropout(dr))
 '''
 
-#4layers
+#test architecture
 model.add(Conv2D(64, (1,4), activation="relu"))
 model.add(Dropout(dr))
 model.add(ZeroPadding2D((0,2)))
-model.add(Conv2D(128, (2,4), activation="relu"))
+model.add(Conv2D(64, (2,4), activation="relu"))
 model.add(Dropout(dr))
 model.add(Conv2D(128, (1,8), activation="relu"))
 model.add(Dropout(dr))
-model.add(Conv2D(256, (1,8), activation="relu"))
+model.add(Conv2D(128, (1,8), activation="relu"))
 model.add(Dropout(dr))
 
 model.add(Flatten())
@@ -156,7 +156,6 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.Blues, label
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.show()
 
 # Plot confusion matrix
 test_Y_hat = model.predict(X_test, batch_size=batch_size)
