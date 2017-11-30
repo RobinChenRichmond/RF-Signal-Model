@@ -11,7 +11,7 @@ With our new architecture, the CNN model has the Validation Accuracy improved to
 
 Here's the summary of model:
 
-###Layer (type)                 Output Shape              Param  
+### Layer (type)                 Output Shape              Param  
 ```
 reshape_1 (Reshape)          (None, 2, 128, 1)         0         
 _________________________________________________________________
