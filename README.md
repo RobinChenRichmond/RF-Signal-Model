@@ -11,8 +11,8 @@ With our new architecture, the CNN model has the Validation Accuracy improved to
 
 Here's the summary of model:
 
-Layer (type)                 Output Shape              Param  
-=================================================================
+###Layer (type)                 Output Shape              Param  
+```
 reshape_1 (Reshape)          (None, 2, 128, 1)         0         
 _________________________________________________________________
 zero_padding2d_1 (ZeroPaddin (None, 2, 132, 1)         0         
@@ -38,7 +38,8 @@ _________________________________________________________________
 activation_1 (Activation)    (None, 11)                0         
 _________________________________________________________________
 reshape_2 (Reshape)          (None, 11)                0         
-=================================================================
+```
+
 Total params: 2,830,427
 Trainable params: 2,830,427
 Non-trainable params: 0
