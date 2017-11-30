@@ -8,4 +8,4 @@ With the dataset from [RadioML](https://radioml.org/datasets/radioml-2016-10-dat
 
 
 
-## Spectrogram-CNN
+## Spectrogram-CNN for RadioML subset
