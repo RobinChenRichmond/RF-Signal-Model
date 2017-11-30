@@ -7,7 +7,7 @@ With the dataset from [RadioML](https://radioml.org/datasets/radioml-2016-10-dat
 ## Improved CNN model for RadioML dataset
 For this model, we use a GTX-980Ti GPU to speed up the execution time.
 
-With our new architecture, the CNN model has the Validation Accuracy improved to 56.04% from 49.49%, with the running time for each epoch decreased to 13s from 15s.
+With our new architecture, the CNN model has the Validation Accuracy improved to 56.04% from 49.49%, with the running time for each epoch decreased to 13s from 15s(With the early stopping mechanism, it usually takes 40-60 epochs to train the model).
 
 Here's the summary of model:
 ```
