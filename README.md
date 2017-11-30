@@ -11,33 +11,33 @@ With our new architecture, the CNN model has the Validation Accuracy improved to
 
 Here's the summary of model:
 ```
-### Layer (type)                 Output Shape              Param  
+Layer (type)                   Output Shape              Param  
 =================================================================
-reshape_1 (Reshape)          (None, 2, 128, 1)         0         
+reshape_1 (Reshape)            (None, 2, 128, 1)         0         
 _________________________________________________________________
-zero_padding2d_1 (ZeroPaddin (None, 2, 132, 1)         0         
+zero_padding2d_1 (ZeroPadding) (None, 2, 132, 1)         0         
 _________________________________________________________________
-conv2d_1 (Conv2D)            (None, 2, 130, 256)       1024      
+conv2d_1 (Conv2D)              (None, 2, 130, 256)       1024      
 _________________________________________________________________
-dropout_1 (Dropout)          (None, 2, 130, 256)       0         
+dropout_1 (Dropout)            (None, 2, 130, 256)       0         
 _________________________________________________________________
-zero_padding2d_2 (ZeroPaddin (None, 2, 134, 256)       0         
+zero_padding2d_2 (ZeroPadding) (None, 2, 134, 256)       0         
 _________________________________________________________________
-conv2d_2 (Conv2D)            (None, 1, 132, 80)        122960    
+conv2d_2 (Conv2D)              (None, 1, 132, 80)        122960    
 _________________________________________________________________
-dropout_2 (Dropout)          (None, 1, 132, 80)        0         
+dropout_2 (Dropout)            (None, 1, 132, 80)        0         
 _________________________________________________________________
-flatten_1 (Flatten)          (None, 10560)             0         
+flatten_1 (Flatten)            (None, 10560)             0         
 _________________________________________________________________
-dense1 (Dense)               (None, 256)               2703616   
+dense1 (Dense)                 (None, 256)               2703616   
 _________________________________________________________________
-dropout_3 (Dropout)          (None, 256)               0         
+dropout_3 (Dropout)            (None, 256)               0         
 _________________________________________________________________
-dense2 (Dense)               (None, 11)                2827      
+dense2 (Dense)                 (None, 11)                2827      
 _________________________________________________________________
-activation_1 (Activation)    (None, 11)                0         
+activation_1 (Activation)      (None, 11)                0         
 _________________________________________________________________
-reshape_2 (Reshape)          (None, 11)                0         
+reshape_2 (Reshape)            (None, 11)                0         
 =================================================================
 ```
 
