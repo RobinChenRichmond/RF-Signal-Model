@@ -10,9 +10,9 @@ For this model, we use a GTX-980Ti GPU to speed up the execution time.
 With our new architecture, the CNN model has the Validation Accuracy improved to 56.04% from 49.49%, with the running time for each epoch decreased to 13s from 15s.
 
 Here's the summary of model:
-
-### Layer (type)                 Output Shape              Param  
 ```
+### Layer (type)                 Output Shape              Param  
+=================================================================
 reshape_1 (Reshape)          (None, 2, 128, 1)         0         
 _________________________________________________________________
 zero_padding2d_1 (ZeroPaddin (None, 2, 132, 1)         0         
@@ -38,6 +38,7 @@ _________________________________________________________________
 activation_1 (Activation)    (None, 11)                0         
 _________________________________________________________________
 reshape_2 (Reshape)          (None, 11)                0         
+=================================================================
 ```
 
 Total params: 2,830,427
