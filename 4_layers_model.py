@@ -81,20 +81,11 @@ classes = mods
 #  - Perform categorical cross entropy optimization
 
 dr = 0.5 # dropout rate (%)
+
+# build the CNN model
 model = models.Sequential()
 model.add(Reshape(in_shp+[1], input_shape=in_shp))
 model.add(ZeroPadding2D((0,2)))
-
-#original architecture
-'''
-model.add(Conv2D(256, (1,3), activation="relu"))
-model.add(Dropout(dr))
-model.add(ZeroPadding2D((0,2)))
-model.add(Conv2D(80, (2,3), activation="relu"))
-model.add(Dropout(dr))
-'''
-
-#test architecture
 model.add(Conv2D(64, (1,4), activation="relu"))
 model.add(Dropout(dr))
 model.add(ZeroPadding2D((0,2)))
@@ -104,11 +95,10 @@ model.add(Conv2D(128, (1,8), activation="relu"))
 model.add(Dropout(dr))
 model.add(Conv2D(128, (1,8), activation="relu"))
 model.add(Dropout(dr))
-
 model.add(Flatten())
-model.add(Dense(256, activation='relu', name="dense1"))
+model.add(Dense(256, activation='relu'))
 model.add(Dropout(dr))
-model.add(Dense( len(classes), activation='softmax', name="dense2" ))
+model.add(Dense(len(classes), activation='softmax'))
 model.add(Reshape([len(classes)]))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.summary()
