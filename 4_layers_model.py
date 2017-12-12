@@ -28,6 +28,7 @@ for mod in mods:
 
 X = np.vstack(X)
 #220000*2*128
+print(X.shape)
 
 # doesn't work
 #dat = X[i,0,:]+1j*X[i,1,:]
@@ -80,9 +81,9 @@ classes = mods
 #  - Pass through 2 Dense layers (ReLu and Softmax)
 #  - Perform categorical cross entropy optimization
 
-dr = 0.5 # dropout rate (%)
 
 # build the CNN model
+dr = 0.5 # dropout rate (%)
 model = models.Sequential()
 model.add(Reshape(in_shp+[1], input_shape=in_shp))
 model.add(ZeroPadding2D((0,2)))
@@ -134,6 +135,7 @@ plt.title('Training performance')
 plt.plot(history.epoch, history.history['loss'], label='train loss+error')
 plt.plot(history.epoch, history.history['val_loss'], label='val_error')
 plt.legend()
+plt.show()
 
 
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.Blues, labels=[]):
@@ -159,7 +161,7 @@ for i in range(0,X_test.shape[0]):
 for i in range(0,len(classes)):
     confnorm[i,:] = conf[i,:] / np.sum(conf[i,:])
 
-plot_confusion_matrix(confnorm, labels=classes)
+#plot_confusion_matrix(confnorm, labels=classes)
 
 
 # Plot confusion matrix
@@ -182,8 +184,8 @@ for snr in snrs:
   for i in range(0,len(classes)):
     confnorm[i,:] = conf[i,:] / np.sum(conf[i,:])
 
-  plt.figure()
-  plot_confusion_matrix(confnorm, labels=classes, title="ConvNet Confusion Matrix (SNR=%d)"%(snr))
+  #plt.figure()
+  #plot_confusion_matrix(confnorm, labels=classes, title="ConvNet Confusion Matrix (SNR=%d)"%(snr))
   cor = np.sum(np.diag(conf))
   ncor = np.sum(conf) - cor
   print "Overall Accuracy: ", cor / (cor+ncor)
@@ -199,3 +201,4 @@ plt.plot(snrs, map(lambda x: acc[x], snrs))
 plt.xlabel("Signal to Noise Ratio")
 plt.ylabel("Classification Accuracy")
 plt.title("New Model Classification Accuracy on RadioML 2016.10 Alpha")
+plt.show()
