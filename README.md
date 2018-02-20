@@ -60,7 +60,11 @@ In our second approach, we converted the given data set into spectrogram images 
 
 The results of the model are shown below:
 
-![alt text](https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/acc.JPG)
+<p align="center">
+  <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/acc.JPG" width="500" title="accuracy">
+</p>
 
-![alt text](https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/confusion.JPG)
+<p align="center">
+  <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/confusion.JPG" width="500" title="confusion matrix">
+</p>
 
