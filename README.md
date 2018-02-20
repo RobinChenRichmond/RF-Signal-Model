@@ -52,3 +52,15 @@ Non-trainable params: 0
 
 
 ## Spectrogram-CNN for RadioML subset
+
+In our second approach, we converted the given data set into spectrogram images of size 41px x 108px and ran CNN models on the image data set. Sice this is a highly time and memory intensive process, we chose a smaller subets of the data. The subsets chosen are:
+1. Modulations - BPSK, QAM16, AM-DSB, WBFM with SNR ranging from +8 to +18 dB with steps of 2
+2. Modulations - BPSK, QAM16, AM-DSB, WBFM with SNR ranging from 􀀀10 to +8 dB with steps of 2
+3. Modulations - BPSK, QAM16, AM-DSB, WBFM, AB-SSB, QPSK with SNR ranging from 0 to +18 dB with steps of 2
+
+The results of the model are shown below:
+
+![alt text](https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/acc.JPG)
+
+![alt text](https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/confusion.JPG)
+
