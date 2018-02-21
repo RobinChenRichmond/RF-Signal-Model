@@ -79,7 +79,7 @@ classes = mods
 
 
 
-# Build the lite Alexnet model using Keras primitives -- 
+# Build the lite version VGG model using Keras primitives -- 
 #  - Reshape [N,2,128] to [N,1,2,128] on input
 #  - Pass through 4 2DConv/ReLu layers
 #  - Pass through 2 Dense layers (ReLu and Softmax)
