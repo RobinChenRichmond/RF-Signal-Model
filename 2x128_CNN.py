@@ -6,7 +6,7 @@ from keras.utils import np_utils
 import keras.models as models
 from keras.layers.core import Reshape,Dense,Dropout,Activation,Flatten
 from keras.layers.noise import GaussianNoise
-from keras.layers.convolutional import Conv2D, MaxPooling2D, ZeroPadding2D, Conv1D, MaxPooling1D, ZeroPadding1D
+from keras.layers.convolutional import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.regularizers import *
 from keras.optimizers import adam
 import matplotlib.pyplot as plt
@@ -29,7 +29,7 @@ for mod in mods:
 X = np.vstack(X)
 
 # For dataset RML2016.10a_dict, we should have data size 220000*2*128
-print("Dataset formatted into shape: ",X.shape)
+print "Dataset formatted into shape: ",X.shape
 
 # The approach to combine the two arrays doesn't work
 '''
@@ -47,9 +47,9 @@ X = X2
 '''
 
 # print out the snrs and mods
-print("Dataset with SNRs: ",snrs)
-print("Dataset with Modulations: ",mods)
-print("Data prepared")
+print "Dataset with SNRs: ",snrs
+print "Dataset with Modulations: ",mods
+print "Data prepared"
 
 
 
@@ -85,9 +85,32 @@ classes = mods
 #  - Pass through 2 Dense layers (ReLu and Softmax)
 #  - Perform categorical cross entropy optimization
 
-
-# build the CNN model
+# Set up some params 
+nb_epoch = 100     # number of epochs to train on
+batch_size = 1024  # training batch size
 dr = 0.5 # dropout rate (%)
+
+'''
+# An update and fix for the original model
+model = models.Sequential()
+model.add(Reshape(in_shp+[1], input_shape=in_shp))
+model.add(ZeroPadding2D((0,2)))
+model.add(Conv2D(256, (1,3), activation="relu"))
+model.add(Dropout(dr))
+model.add(ZeroPadding2D((0,2)))
+model.add(Conv2D(80, (2,3), activation="relu"))
+model.add(Dropout(dr))
+model.add(Flatten())
+model.add(Dense(256, activation='relu', name="dense1"))
+model.add(Dropout(dr))
+model.add(Dense( len(classes), name="dense2" ))
+model.add(Activation('softmax'))
+model.add(Reshape([len(classes)]))
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.summary()
+
+'''
+# build the CNN model
 model = models.Sequential()
 model.add(Reshape(in_shp+[1], input_shape=in_shp))
 model.add(ZeroPadding2D((0,2)))
@@ -108,11 +131,11 @@ model.add(Reshape([len(classes)]))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.summary()
 
-# Set up some params 
-nb_epoch = 100     # number of epochs to train on
-batch_size = 1024  # training batch size
 
 
+
+# Train the dataset
+#  and store the weights
 filepath = 'weight_4layers.wts.h5'
 history = model.fit(X_train,
     Y_train,
@@ -126,16 +149,16 @@ history = model.fit(X_train,
     ])
 
 # Re-load the best weights once training is finished
-model.load_weights('weight_4layers.wts.h5')
+model.load_weights('/Users/guanyuchen/Desktop/Github/RF-Signal-Model/weight_4layers.wts.h5')
 
 
 # Show simple version of performance
 score = model.evaluate(X_test, Y_test, verbose=0, batch_size=batch_size)
-print ("Validation Loss and Accuracy: ",score)
+print "Validation Loss and Accuracy: ",score
 
 
 
-
+'''
 # Optional: show analysis graphs
 plt.figure()
 plt.title('Training performance')
@@ -143,7 +166,7 @@ plt.plot(history.epoch, history.history['loss'], label='train loss+error')
 plt.plot(history.epoch, history.history['val_loss'], label='val_error')
 plt.legend()
 plt.show()
-
+'''
 
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.Blues, labels=[]):
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
@@ -155,6 +178,8 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.Blues, label
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
+    plt.show()
+
 
 # Plot confusion matrix
 test_Y_hat = model.predict(X_test, batch_size=batch_size)
@@ -167,6 +192,9 @@ for i in range(0,X_test.shape[0]):
 
 for i in range(0,len(classes)):
     confnorm[i,:] = conf[i,:] / np.sum(conf[i,:])
+plot_confusion_matrix(confnorm, labels=classes)
+
+
 
 # Plot confusion matrix
 acc = {}
@@ -174,7 +202,8 @@ for snr in snrs:
   # extract classes @ SNR
   test_SNRs = map(lambda x: lbl[x][1], test_idx)
   test_X_i = X_test[np.where(np.array(test_SNRs)==snr)]
-  test_Y_i = Y_test[np.where(np.array(test_SNRs)==snr)]    
+  test_Y_i = Y_test[np.where(np.array(test_SNRs)==snr)]
+
   # estimate classes
   test_Y_i_hat = model.predict(test_X_i)
   conf = np.zeros([len(classes),len(classes)])
@@ -192,8 +221,8 @@ for snr in snrs:
   #plot_confusion_matrix(confnorm, labels=classes, title="ConvNet Confusion Matrix (SNR=%d)"%(snr))
   cor = np.sum(np.diag(conf))
   ncor = np.sum(conf) - cor
-  print "Overall Accuracy: ", cor / (cor+ncor)
-  acc[snr] = 1.0*cor/(cor+ncor)
+  print "SNR: ",snr, " Overall Accuracy: ", cor / (cor + ncor)
+  acc[snr] = 1.0 * cor / (cor + ncor)
 
 # Save results to a pickle file for plotting later
 print acc
