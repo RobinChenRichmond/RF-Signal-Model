@@ -29,7 +29,7 @@ for mod in mods:
 X = np.vstack(X)
 
 # For dataset RML2016.10a_dict, we should have data size 220000*2*128
-print(X.shape)
+print("Dataset formatted into shape: ",X.shape)
 
 # The approach to combine the two arrays doesn't work
 '''
@@ -47,8 +47,8 @@ X = X2
 '''
 
 # print out the snrs and mods
-print(snrs)
-print(mods)
+print("Dataset with SNRs: ",snrs)
+print("Dataset with Modulations: ",mods)
 print("Data prepared")
 
 
@@ -73,7 +73,7 @@ Y_train = to_onehot(map(lambda x: mods.index(lbl[x][0]), train_idx))
 Y_test = to_onehot(map(lambda x: mods.index(lbl[x][0]), test_idx))
 
 in_shp = list(X_train.shape[1:])
-print X_train.shape, in_shp
+# print X_train.shape, in_shp
 classes = mods
 
 
@@ -131,7 +131,7 @@ model.load_weights('weight_4layers.wts.h5')
 
 # Show simple version of performance
 score = model.evaluate(X_test, Y_test, verbose=0, batch_size=batch_size)
-print score
+print ("Validation Loss and Accuracy: ",score)
 
 
 
