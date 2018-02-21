@@ -14,7 +14,7 @@ import cPickle, random, sys, keras
 
 
 # Load the dataset
-#  You will need to seperately download or generate this file
+#  from a certain local path
 Xd = cPickle.load(open("/Users/guanyuchen/Desktop/MPS_Project/RML2016.10a_dict.dat",'rb'))
 print("Dataset imported")
 snrs,mods = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [1,0])
@@ -27,11 +27,11 @@ for mod in mods:
             lbl.append((mod,snr))
 
 X = np.vstack(X)
-#220000*2*128
+
+# For dataset RML2016.10a_dict, we should have data size 220000*2*128
 print(X.shape)
 
-# doesn't work
-#dat = X[i,0,:]+1j*X[i,1,:]
+# The approach to combine the two arrays doesn't work
 '''
 X2 = []
 for i in range(X.shape[0]):
@@ -46,6 +46,7 @@ X2 = np.vstack(X2)
 X = X2
 '''
 
+# print out the snrs and mods
 print(snrs)
 print(mods)
 print("Data prepared")
@@ -75,9 +76,12 @@ in_shp = list(X_train.shape[1:])
 print X_train.shape, in_shp
 classes = mods
 
-# Build VT-CNN2 Neural Net model using Keras primitives -- 
+
+
+
+# Build the lite Alexnet model using Keras primitives -- 
 #  - Reshape [N,2,128] to [N,1,2,128] on input
-#  - Pass through 2 2DConv/ReLu layers
+#  - Pass through 4 2DConv/ReLu layers
 #  - Pass through 2 Dense layers (ReLu and Softmax)
 #  - Perform categorical cross entropy optimization
 
@@ -120,8 +124,8 @@ history = model.fit(X_train,
         keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=True, mode='auto'),
         keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, verbose=0, mode='auto')
     ])
-# we re-load the best weights once training is finished
 
+# Re-load the best weights once training is finished
 model.load_weights('weight_4layers.wts.h5')
 
 
@@ -129,7 +133,10 @@ model.load_weights('weight_4layers.wts.h5')
 score = model.evaluate(X_test, Y_test, verbose=0, batch_size=batch_size)
 print score
 
-# Show loss curves 
+
+
+
+# Optional: show analysis graphs
 plt.figure()
 plt.title('Training performance')
 plt.plot(history.epoch, history.history['loss'], label='train loss+error')
@@ -160,9 +167,6 @@ for i in range(0,X_test.shape[0]):
 
 for i in range(0,len(classes)):
     confnorm[i,:] = conf[i,:] / np.sum(conf[i,:])
-
-#plot_confusion_matrix(confnorm, labels=classes)
-
 
 # Plot confusion matrix
 acc = {}
