@@ -30,22 +30,6 @@ X = np.vstack(X)
 
 # For dataset RML2016.10a_dict, we should have data size 220000*2*128
 print "Dataset formatted into shape: ",X.shape
-
-# The approach to combine the two arrays doesn't work
-'''
-X2 = []
-for i in range(X.shape[0]):
-#  temp = []
-  X2.append(X[i,0,:]+1j*X[i,1,:])
-#  for k in range(X.shape[2]):
-#    temp.append(X[i,0,k]+1j*X[i,1,k])
-#    temp.append(math.cos(X[i,1,j])+math.sin(X[i,0,j]))
-#  X2.append(temp)
-
-X2 = np.vstack(X2)
-X = X2
-'''
-
 # print out the snrs and mods
 print "Dataset with SNRs: ",snrs
 print "Dataset with Modulations: ",mods
@@ -181,7 +165,7 @@ def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.Blues, label
     plt.show()
 
 
-# Plot confusion matrix
+# Plot confusion matrix for the whole dataset
 test_Y_hat = model.predict(X_test, batch_size=batch_size)
 conf = np.zeros([len(classes),len(classes)])
 confnorm = np.zeros([len(classes),len(classes)])
@@ -196,7 +180,7 @@ plot_confusion_matrix(confnorm, labels=classes)
 
 
 
-# Plot confusion matrix
+# Accuracy and confusion matrix for each SNR
 acc = {}
 for snr in snrs:
   # extract classes @ SNR
