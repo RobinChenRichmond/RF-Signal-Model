@@ -15,7 +15,7 @@ import cPickle, random, sys, keras
 
 # Load the dataset
 #  from a certain local path
-Xd = cPickle.load(open("/Users/guanyuchen/Desktop/MPS_Project/RML2016.10a_dict.dat",'rb'))
+Xd = cPickle.load(open("/Users/guanyuchen/Desktop/CORNELLACA/INFO 5901 Fall/MPS_Project/RML2016.10a_dict.dat",'rb'))
 print("Dataset imported")
 snrs,mods = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [1,0])
 X = []  
