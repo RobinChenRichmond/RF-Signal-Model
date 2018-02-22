@@ -2,6 +2,8 @@ import os,random
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import math
 import numpy as np
+import matplotlib.pyplot as plt
+import cPickle, random, sys, keras
 from keras.utils import np_utils
 import keras.models as models
 from keras.layers.core import Reshape,Dense,Dropout,Activation,Flatten
@@ -9,8 +11,7 @@ from keras.layers.noise import GaussianNoise
 from keras.layers.convolutional import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.regularizers import *
 from keras.optimizers import adam
-import matplotlib.pyplot as plt
-import cPickle, random, sys, keras
+
 
 
 # Load the dataset
@@ -69,7 +70,7 @@ classes = mods
 #  - Pass through 2 Dense layers (ReLu and Softmax)
 #  - Perform categorical cross entropy optimization
 
-# Set up some params 
+# Set up some params
 nb_epoch = 100     # number of epochs to train on
 batch_size = 1024  # training batch size
 dr = 0.5 # dropout rate (%)
@@ -132,6 +133,8 @@ history = model.fit(X_train,
         keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, verbose=0, mode='auto')
     ])
 
+
+
 # Re-load the best weights once training is finished
 model.load_weights('/Users/guanyuchen/Desktop/Github/RF-Signal-Model/weight_4layers.wts.h5')
 
@@ -152,6 +155,7 @@ plt.legend()
 plt.show()
 '''
 
+# helper method to plot the confusion matrix
 def plot_confusion_matrix(cm, title='Confusion matrix', cmap=plt.cm.Blues, labels=[]):
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
@@ -180,7 +184,7 @@ plot_confusion_matrix(confnorm, labels=classes)
 
 
 
-# Accuracy and confusion matrix for each SNR
+# Accuracy and confusion matrix for data with each SNR
 acc = {}
 for snr in snrs:
   # extract classes @ SNR
