@@ -50,7 +50,7 @@ Trainable params: 4,034,187
 Non-trainable params: 0
 ```
 
-### A confusion matrix comparison between the original model and the new model:
+### A confusion matrix comparison between the original model(left) and the new model(right):
 
 <p align="left">
   <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/original_confusion_matrix.png" width="400" title="accuracy">
