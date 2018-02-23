@@ -51,8 +51,8 @@ Non-trainable params: 0
 ```
 
 <p align="left">
-  <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/original_confusion_matrix.png" width="500" title="accuracy">
-  <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/new_confusion_matrix.png" width="500" title="accuracy">
+  <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/original_confusion_matrix.png" width="400" title="accuracy">
+  <img src="https://github.com/RobinChenRichmond/RF-Signal-Model/blob/master/new_confusion_matrix.png" width="400" title="accuracy">
 </p>
 
 ## Spectrogram-CNN for RadioML subset
